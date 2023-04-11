@@ -4,6 +4,9 @@
 *.fsdb
 *.zip
 *.rar
+RTL category/
+Gate-Level category/
+Documentary category/
 
 *~
 
