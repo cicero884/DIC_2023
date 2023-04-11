@@ -1,0 +1,16 @@
+/home/cicero/code/DIC_2023/hw3/file/testfixture.sv {1 {vlog -work work -sv -stats=none /home/cicero/code/DIC_2023/hw3/file/testfixture.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module testfixture
+
+Top level modules:
+	testfixture
+
+} {} {}} /home/cicero/code/DIC_2023/hw3/file/AEC.vo {1 {vlog -work work -stats=none /home/cicero/code/DIC_2023/hw3/file/AEC.vo
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module AEC
+-- Compiling module hard_block
+
+Top level modules:
+	AEC
+
+} {} {}}

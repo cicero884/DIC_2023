@@ -1,0 +1,106 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+d/home/cicero/code/DIC_2023/hw3
+vAEC
+Z0 !s110 1681201632
+!i10b 1
+!s100 8o:[a3`<M=@TMULZPfjd[1
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IT`nHjM54eO>ZVmam3FLXK2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 d/home/cicero/code/DIC_2023/hw3/file
+Z4 w1681199476
+Z5 8/home/cicero/code/DIC_2023/hw3/file/AEC.vo
+Z6 F/home/cicero/code/DIC_2023/hw3/file/AEC.vo
+!i122 147
+L0 32 4126
+Z7 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z8 !s108 1681201632.000000
+!s107 /home/cicero/code/DIC_2023/hw3/file/AEC.vo|
+Z9 !s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw3/file/AEC.vo|
+!i113 1
+Z10 o-work work
+Z11 tCvgOpt 0
+n@a@e@c
+vhard_block
+R0
+!i10b 1
+!s100 Y@4c0P9;dIi4GNLEj8<i=0
+R1
+IS88RcC0<Dj>an`Dkl=XY@1
+R2
+R3
+R4
+R5
+R6
+!i122 147
+L0 4159 34
+R7
+r1
+!s85 0
+31
+R8
+Z12 !s107 /home/cicero/code/DIC_2023/hw3/file/AEC.vo|
+R9
+!i113 1
+R10
+R11
+vstack
+!s110 1681200419
+!i10b 1
+!s100 P<8RDmi5g?=EOBWjzidn[2
+R1
+I=B[DIJYTIQ6KO^n=:]]Ak2
+R2
+R3
+w1681198414
+8/home/cicero/code/DIC_2023/hw3/file/AEC.v
+F/home/cicero/code/DIC_2023/hw3/file/AEC.v
+!i122 143
+L0 9 26
+R7
+r1
+!s85 0
+31
+!s108 1681200419.000000
+!s107 /home/cicero/code/DIC_2023/hw3/file/AEC.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw3/file/AEC.v|
+!i113 1
+R10
+R11
+vtestfixture
+DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+R0
+!i10b 1
+!s100 ?lXSFJ5YeZnW[6G_Y4eZz3
+R1
+IFoFfVkHLoW3?fG25@JfFY1
+R2
+S1
+R3
+w1681199582
+8/home/cicero/code/DIC_2023/hw3/file/testfixture.sv
+F/home/cicero/code/DIC_2023/hw3/file/testfixture.sv
+!i122 146
+L0 8 210
+R7
+r1
+!s85 0
+31
+R8
+!s107 /home/cicero/code/DIC_2023/hw3/file/testfixture.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|/home/cicero/code/DIC_2023/hw3/file/testfixture.sv|
+!i113 1
+o-work work -sv
+R11

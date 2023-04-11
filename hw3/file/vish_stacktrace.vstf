@@ -1,0 +1,51 @@
+# Current time Mon Apr 10 12:16:18 2023
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.1"
+# Version = "2020.02"
+# Date = "Feb 28 2020"
+# Platform = "linuxaloem"
+# 0    0x086d5a16: '<unknown (@0x86d5a16)>'
+# 1    0x086d7ee2: 'dbg_sym_load_block + 0xb2' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 2    0x086d8897: 'dbg_load_named_block + 0x37' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 3    0x086d8888: 'dbg_load_named_block + 0x28' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 4    0x086db6ce: 'parser_sym_load_block + 0xce' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 5    0x0841d0f2: 'tclprim_ParserGetFullPath + 0x1d2' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 6    0x0820bc19: '<unknown (@0x820bc19)>'
+# 7    0x0857ec8b: 'TclInvokeStringCommand + 0x7b' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 8    0x0d17d80b: '<unknown (@0xd17d80b)>'
+# 9    0x0cf8988b: '<unknown (@0xcf8988b)>'
+# Current time Mon Apr 10 12:37:20 2023
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.1"
+# Version = "2020.02"
+# Date = "Feb 28 2020"
+# Platform = "linuxaloem"
+# 0    0x086d5a16: '<unknown (@0x86d5a16)>'
+# 1    0x086d7ee2: 'dbg_sym_load_block + 0xb2' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 2    0x086d8897: 'dbg_load_named_block + 0x37' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 3    0x086d8888: 'dbg_load_named_block + 0x28' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 4    0x086db6ce: 'parser_sym_load_block + 0xce' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 5    0x0841d0f2: 'tclprim_ParserGetFullPath + 0x1d2' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 6    0x0820bc19: '<unknown (@0x820bc19)>'
+# 7    0x0857ec8b: 'TclInvokeStringCommand + 0x7b' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 8    0x0b58f67b: '<unknown (@0xb58f67b)>'
+# 9    0x0d01c16b: '<unknown (@0xd01c16b)>'
+# Current time Tue Apr 11 15:29:14 2023
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.1"
+# Version = "2020.02"
+# Date = "Feb 28 2020"
+# Platform = "linuxaloem"
+# 0    0x086d6813: '<unknown (@0x86d6813)>'
+# 1    0x086d7f6f: 'dbg_sym_load_block + 0x13f' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 2    0x086d8897: 'dbg_load_named_block + 0x37' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 3    0x086d8888: 'dbg_load_named_block + 0x28' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 4    0x086db6ce: 'parser_sym_load_block + 0xce' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 5    0x0841d0f2: 'tclprim_ParserGetFullPath + 0x1d2' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 6    0x0820bc19: '<unknown (@0x820bc19)>'
+# 7    0x0857ec8b: 'TclInvokeStringCommand + 0x7b' in '/home/cicero/intelFPGA/20.1/modelsim_ase/linuxaloem/vish'
+# 8    0x0cb29a0b: '<unknown (@0xcb29a0b)>'
+# 9    0x0d303d6b: '<unknown (@0xd303d6b)>'
