@@ -20,7 +20,7 @@ module  ATCONV(
 	);
 
 /*
-- input image size: 64 x 64 0~4095
+- input image size: 64 L0_x 64 0~4095
 - idata: 9 bits integer, 4 bits float  Q9.4 FIXED POINT
 - csel : 0 --> layer0 (conv output)  1 --> layer2 (max pool output)
 
@@ -40,6 +40,14 @@ tensor([[[[0., 0., 0., 1., 2., 2., 2.],
           [6., 6., 6., 7., 8., 8., 8.],
           [6., 6., 6., 7., 8., 8., 8.]]]])
 */
+always@(posedge clk,posedge reset) begin
+	if(reset) begin
+		busy=0;
+	end
+	else begin
+		if(ready) busy=1;
+	end
+end
 
 wire signed [12:0] kernel [0:8];
 assign kernel[0] = 13'h1FFF; assign kernel[1] = 13'h1FFE; assign kernel[2] = 13'h1FFF;
@@ -58,13 +66,14 @@ ababab
 cdcdcd
 */
 //data-request
-reg [4:0]x[0:2],y[0:2];
+reg [4:0]L0_x,L0_y;
+reg [11:0]L0_caddr_wr[0:3]
 reg [2:0]group[0:2];
 reg request_done,calc_done;
-localparam RIGHT=0;
-localparam LEFT=1;
-localparam DOWN=2;
-localparam RESET=3;
+localparam RIGHT=2'b00;
+localparam LEFT=2'b01;
+localparam DOWN=2'b10;
+localparam RESET=2'b11;
 reg [4:0] req_pos[0:1];
 reg [1:0] direct,direct_next;
 
@@ -76,7 +85,7 @@ D=DOWN
 S=RESET
 
 S-R-R-R-R
-        |
+		|
 L-L-L-L-D
 |
 D-R-R-R-R
@@ -87,7 +96,7 @@ D-R-R-R-R
 /*
 ...
 R-R-R-R-D
-        |
+		|
 D-L-L-L-L
 |
 R-R-R-R-D
@@ -97,38 +106,38 @@ S-L-L-L-L
 //next direction control
 always@(*) begin
 	//next direct
-	if(y[0][0]) begin//left
-		if(x[0]) direct_next=LEFT;
+	if(L0_y[0]) begin//left
+		if(L0_x) direct_next=LEFT;
 		else begin
-			if(&y[0][4:1]) direct_next=RESET;
+			if(&L0_y[4:1]) direct_next=RESET;
 			else direct_next=DOWN;
 		end
 	end
 	else begin//right
-		if(&x[0]) direct_next=DOWN;
+		if(&L0_x) direct_next=DOWN;
 		else direct_next=RIGHT;
 	end
 end
 
 //direct_act: {next_xy,direction}
-reg [2:0] direct_act[0:1];
+reg [2:0] direct_act[0:2];
 always@(*) begin
 	case(direct)
 		RIGHT: begin//2,5,8
 			if(req_pos[0]>5) direct_act[0]={1'b1,direct_next};//end(next state)
-			else direct_act[0]={1'b0,direct[0]};
+			else direct_act[0]={1'b0,direct};
 		end
 		LEFT: begin//0,3,6
 			if(req_pos[0]>5) direct_act[0]={1'b1,direct_next};//end(next state)
-			else direct_act[0]={1'b0,direct[0]};
+			else direct_act[0]={1'b0,direct};
 		end
 		DOWN: begin//6,7,8
 			if(req_pos[0]>7) direct_act[0]={1'b1,direct_next};//end(next state)
-			else direct_act[0]={1'b0,direct[0]};
+			else direct_act[0]={1'b0,direct};
 		end
 		RESET: begin//all
 			if(req_pos[0]>7) direct_act[0]={1'b1,direct_next};//end(next state)
-			else direct_act[0]={1'b0,direct[0]};
+			else direct_act[0]={1'b0,direct};
 		end
 	endcase
 end
@@ -136,33 +145,33 @@ end
 //012
 //345
 //678
-always@(posedge clk,posedge rst) begin
-	if(rst) begin
-		x[0]<=0;
-		y[0]<=0;
+always@(posedge clk,posedge reset) begin
+	if(reset) begin
+		L0_x<=0;
+		L0_y<=0;
 		group[0]<=0;
 		req_pos[0]<=0;
 		direct<=RESET;
 	end
-	else if(ready) begin
+	else begin
 		//cur direct(set req_pos[0])
 		case(direct_act[0])//synthesis parallel_case full_case
 			//jump
 			{1'b1,RIGHT}:begin//(2),5,8
 				req_pos[0]<=2;
-				x[0]<=x[0]+1;
+				L0_x<=L0_x+1;
 			end
 			{1'b1,LEFT }:begin//(0),3,6
 				req_pos[0]<=0;
-				x[0]<=x[0]-1;
+				L0_x<=L0_x-1;
 			end
 			{1'b1,DOWN }:begin//(6),7,8
 				req_pos[0]<=6;
-				y[0]<=y[0]+1;
+				L0_y[0]<=L0_y[0]+1;
 			end
 			{1'b1,RESET}:begin//(0),1,2,3,4,5,6,7,8
 				req_pos[0]<=0;
-				y[0]<=y[0]+1;//overflow to 0
+				L0_y[0]<=L0_y[0]+1;//overflow to 0
 				group[0]<=group[0]+1;
 			end
 			//stay
@@ -187,23 +196,28 @@ end
 //345
 //678
 reg [5:0] tmp_x,tmp_y;
+reg [5:0] debugx,debugy;
 always@(*) begin
+	tmp_x=L0_x;
+	tmp_y=L0_y;
 	case(req_pos[0])//synthesis full_case parallel_case
-		0: {tmp_x,tmp_y}={x[0]-1,y[0]-1};
-		1: {tmp_x,tmp_y}={x[0]  ,y[0]-1};
-		2: {tmp_x,tmp_y}={x[0]+1,y[0]-1};
-		3: {tmp_x,tmp_y}={x[0]-1,y[0]  };
-		4: {tmp_x,tmp_y}={x[0]  ,y[0]  };
-		5: {tmp_x,tmp_y}={x[0]+1,y[0]  };
-		6: {tmp_x,tmp_y}={x[0]-1,y[0]+1};
-		7: {tmp_x,tmp_y}={x[0]  ,y[0]+1};
-		8: {tmp_x,tmp_y}={x[0]+1,y[0]+1};
+		4'd0: {tmp_x,tmp_y}={tmp_x-6'd1,tmp_y-6'd1};
+		4'd1: {tmp_x,tmp_y}={tmp_x     ,tmp_y-6'd1};
+		4'd2: {tmp_x,tmp_y}={tmp_x+6'd1,tmp_y-6'd1};
+		4'd3: {tmp_x,tmp_y}={tmp_x-6'd1,tmp_y     };
+		4'd4: {tmp_x,tmp_y}={tmp_x     ,tmp_y     };
+		4'd5: {tmp_x,tmp_y}={tmp_x+6'd1,tmp_y     };
+		4'd6: {tmp_x,tmp_y}={tmp_x-6'd1,tmp_y+6'd1};
+		4'd7: {tmp_x,tmp_y}={tmp_x     ,tmp_y+6'd1};
+		4'd8: {tmp_x,tmp_y}={tmp_x+6'd1,tmp_y+6'd1};
 	endcase
-	if(tmp_x[5]) begin//x out board
+	debugx=tmp_x;
+	debugy=tmp_y;
+	if(tmp_x[5]) begin//L0_x out board
 		if(tmp_x[4]) tmp_x=6'd0;//-
 		else tmp_x=~6'd0;//+
 	end
-	if(tmp_y[5]) begin//y out board
+	if(tmp_y[5]) begin//L0_y out board
 		if(tmp_y[4]) tmp_y=6'd0;//-
 		else tmp_y=~6'd0;//+
 	end
@@ -211,44 +225,154 @@ always@(*) begin
 end
 /********************************************************/
 //write into 3*3
-reg [12:0] cache[0:8];
-reg valid_calc;
+reg [7:0] cache[0:8];
+reg calc_valid;
 integer i;
 always@(posedge clk) begin
-	case(direct_act[1]) //synthesis parallel_case
+	case(direct_act[2]) //synthesis parallel_case
 		{1'b1,RIGHT}: begin
 			for(i=0;i<9;i=i+3) begin
 				cache[i]<=cache[i+1];
-				cache[i+1]<=cache[i+2]
+				cache[i+1]<=cache[i+2];
 			end
 		end
 		{1'b1,LEFT}: begin
 			for(i=2;i<9;i=i+3) begin
 				cache[i]<=cache[i-1];
-				cache[i-1]<=cache[i-2]
+				cache[i-1]<=cache[i-2];
 			end
 		end
 		{1'b1,DOWN}: begin
-			for(i=0;i<6;++i) cache[i]<=cache[i+3];
+			for(i=0;i<6;i=i+1) cache[i]<=cache[i+3];
 		end
 	endcase
-	cache[req_pos[1]]<=idata;
-	if(direct_act[1][1:0]==RESET && req_pos<6) valid_calc<=0;
-	else valid_calc=1;
+	cache[req_pos[1]]<=idata[11:4];//remove idata sign bit and decimel point 4 bit(all zero)
+	if(direct_act[1][1:0]==RESET && req_pos[1]<6) calc_valid<=0;
+	else calc_valid=1;
 
-	x[1]<=x[0];
-	y[1]<=y[0];
+	L0_caddr_wr[0]<={L0_y,group[1],L0_x,group[0]};
 	req_pos[1]<=req_pos[0];
+	direct_act[2]<=direct_act[1];
 	direct_act[1]<=direct_act[0];
 end
 /*******************************************/
-//conv
-always@(posedge clk) begin
+//conv mul
+/*
+cnt counter
+0: 0,1,2
+1: 3,4,5
+2: 6,7,8
 
-	x[2]<=x[1];
-	y[2]<=y[1];
+mul data
+-1,-2,-1
+-4, 2,-4
+-1,-2,-1
+=>shift
+0,1,0
+2,1,2
+0,1,0
+*/
+wire [2:0]kernel_shift[0:8];
+assign {kernel_shift[0],kernel_shift[1],kernel_shift[2]}={3'd0,3'd1,3'd0};
+assign {kernel_shift[3],kernel_shift[4],kernel_shift[5]}={3'd2,3'd1,3'd2};
+assign {kernel_shift[6],kernel_shift[7],kernel_shift[8]}={3'd0,3'd1,3'd0};
+
+reg [1:0] L0_cnt;
+always@(posedge clk,posedge reset) begin
+	if(reset) L0_cnt<=0;
+	else if(calc_valid) begin
+		if(L0_cnt==2) L0_cnt<=0;
+		else L0_cnt<=L0_cnt+1;
+	end
 end
-//caddr ctrl
+reg [8:0]conv_sign[0:2];
+reg [11:0]conv_mul[0:2];
+always@(*) begin
+	for(i=0;i<3;i=i+1) begin
+		if(i==1 && L0_cnt==1) conv_sign[i]<= {1'b0,conv_sign[L0_cnt*3+i]};
+		else conv_sign[i]<= ~{1'b0,conv_sign[L0_cnt*3+i]}+1'b1;
+	end
+end
+always@(posedge clk) begin
+	for(i=0;i<3;i=i+1) begin
+		conv_mul[i]<=$signed(conv_sign)<<<kernel_shift[L0_cnt*3+i];
+	end
+	L0_caddr_wr[1]<=L0_caddr_wr[0];
+end
+/*******************************************/
+//conv add
+reg [12:0]conv_add,conv_data;
+reg conv_done;
+always@(posedge clk) begin
+	case(L0_cnt) //synthesis parallel_case full_case
+		2'd0:conv_add <=(bias    +conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+		2'd1:conv_add <=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+		2'd2:begin
+			conv_data<=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+			L0_caddr_wr[2]<=L0_caddr_wr[1];
+			conv_add<=13'dx;
+		end
+	endcase
+end
+
+always@(posedge clk,posedge reset) begin
+	if(reset) begin
+		conv_done<=0;
+	end
+	else begin
+		if(conv_done) begin
+			if(csel==0) conv_done<=0;
+		end
+		else conv_done<=L0_cnt[1];//L0_cnt==2;
+	end
+end
+/*-----------------------------------------*/
+//max_pooling & round up & caddr ctrl & (ReLU)
+reg L1_w;
+assign csel=L1_w;
+assign crd=!L1_w;
+assign caddr_rd={L1_y,L1_cnt[1],L1_x,L1_cnt[0]};
+//layer 1 request data
 //when last group start,start reading and write into mem1
+//L1_cnt: 0,1,2,3,4
+//rw	: r,r,r,r,w
+//recv	: x,0,1,2,3
+assign L1_w=L1_cnt[2];
+reg [4:0] L1_x,L1_y;
+reg [2:0] L1_cnt;
+reg [7:0] max;
+always@(posedge clk) begin
+	if(group==2'd3 && (L0_x || L0_y)) begin
+		if(L1_cnt==4) begin// should test whether need reset
+			L1_cnt<=0;
+			{L1_y,L1_x}<={L1_y,L1_x}+1;
+		end
+		else L1_cnt<=L1_cnt+1;
+	end
+	else begin
+		L1_x<=0;
+		L1_y<=0;
+		L1_cnt<=0;
+	end
+end
+//write data
+reg [7:0] round_up,larger,max;
+assign cwr=conv_done || L1_w;
+assign round_up=(cdata_rd[3:0])? cdata_rd[11:4]+1:cdata_rd[11:4];
+assign larger=(round_up>max)? round_up:max;
+always@(*) begin
+	if(csel) begin
+		caddr_wr={L1_y,L1_x};
+		cdata_wr={1'd0,larger,4'd0};
+	end
+	else begin
+		caddr_wr=L0_caddr_wr[2]
+		cdata_wr=conv_data;
+	end
+end
+always@(posedge clk) begin
+	if(L1_cnt) max<=larger;
+	else max<=0;
+end
 
 endmodule
