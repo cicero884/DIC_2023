@@ -1,20 +1,19 @@
 `timescale 1ns/10ps
-`define CYCLE      10          	  // Modify your clock period here
-`define SDFFILE    "./CONV_syn.sdf"	  // Modify your sdf file name
-`define End_CYCLE  100000000              // Modify cycle times once your design need more cycle times!
+`define CYCLE      50          	  // you should not alter the cycle period (T.A. would test your ATCONV.v with cycle period == 50)
+`define End_CYCLE  1000000              // Modify cycle times once your design need more cycle times!
 `define IMG_DATA "./data/img.dat"
-`define RELU_GOLDEN "./data/afterRelu.dat"
-`define RESULT_GOLDEN "./data/result.dat"
+`define LAYER0_GOLDEN "./data/layer0_golden.dat"
+`define LAYER1_GOLDEN "./data/layer1_golden.dat"
 
 module testfixture;
 
 reg [12:0] imgData [0:4095];
 
-reg [12:0] afterReluGolden [0:4095];
-reg [12:0] resultGolden [0:1023];
+reg [12:0] layer0_golden [0:4095];
+reg [12:0] layer1_golden [0:1023];
 
-reg [12:0] afterReluMem [0:4095];
-reg [12:0] resultMem [0:1023];
+reg [12:0] Layer0_Mem [0:4095];
+reg [12:0] Layer1_Mem [0:1023];
 
 wire		cwr;
 wire		crd;
@@ -32,6 +31,7 @@ wire	[11:0]	iaddr;
 reg	[12:0]	idata;
 
 
+reg [30:0] cycle=0;
 integer		p0, p1, p3, p4, p2;
 integer		err0,  err1;
 reg		check0=0, check1=0;
@@ -67,8 +67,8 @@ initial begin // initial pattern and expected result
 	wait(reset==1);
 	wait ((ready==1) && (busy ==0) ) begin
 		$readmemb(`IMG_DATA, imgData);
-        $readmemb(`RELU_GOLDEN, afterReluGolden);
-        $readmemb(`RESULT_GOLDEN, resultGolden);
+        $readmemb(`LAYER0_GOLDEN, layer0_golden);
+        $readmemb(`LAYER1_GOLDEN, layer1_golden);
 	end	
 end
 always@(negedge clk) begin // generate the stimulus input data
@@ -82,8 +82,8 @@ end
 always@(negedge clk) begin
 	if (crd == 1) begin
 		case(csel)
-			1'b0:cdata_rd <= afterReluMem[caddr_rd] ;
-			1'b1:cdata_rd <= resultMem[caddr_rd] ;
+			1'b0:cdata_rd <= Layer0_Mem[caddr_rd] ;
+			1'b1:cdata_rd <= Layer1_Mem[caddr_rd] ;
 		endcase
 	end
 end
@@ -91,61 +91,58 @@ end
 always@(posedge clk) begin 
 	if (cwr == 1) begin
 		case(csel)
-            1'b0: begin check0 <= 1; afterReluMem[caddr_wr] <= cdata_wr; end
-            1'b1: begin check1 <= 1; resultMem[caddr_wr] <= cdata_wr; end 
+            1'b0: begin check0 <= 1; Layer0_Mem[caddr_wr] <= cdata_wr; end
+            1'b1: begin check1 <= 1; Layer1_Mem[caddr_wr] <= cdata_wr; end 
 		endcase
 	end
 end
 
+always @(posedge clk) begin
+	cycle <= cycle + 1;
+end
 
 //-------------------------------------------------------------------------------------------------------------------
-initial begin  	// layer 0,  conv output
+initial begin  	
 check0<= 0;
 wait(busy==1); wait(busy==0);
 if (check0 == 1) begin 
 	err0 = 0;
 	for (p0=0; p0<=4095; p0=p0+1) begin
-		if (afterReluMem[p0] ==afterReluGolden[p0]) ;
-		/*else if ( (L0_MEM0[p0]+20'h1) == L0_EXP0[p0]) ;
-		else if ( (L0_MEM0[p0]-20'h1) == L0_EXP0[p0]) ;
-		else if ( (L0_MEM0[p0]+20'h2) == L0_EXP0[p0]) ;
-		else if ( (L0_MEM0[p0]-20'h2) == L0_EXP0[p0]) ;
-		else if ( (L0_MEM0[p0]+20'h3) == L0_EXP0[p0]) ;
-		else if ( (L0_MEM0[p0]-20'h3) == L0_EXP0[p0]) ;*/
+		if (Layer0_Mem[p0] ==layer0_golden[p0]) ;
 		else begin
 			err0 = err0 + 1;
 			begin 
 				if(p0 < 128)
 				begin
-					$display("WRONG! Layer 0 (Convolutional Output) with Kernel , Pixel %d is wrong!", p0);
-					$display("               The output data is %h, but the expected data is %h ", afterReluMem[p0], afterReluGolden[p0]);
+					$display("WRONG! Layer 0 output , Pixel %d is wrong!", p0);
+					$display("               The output data is %h, but the expected data is %h ", Layer0_Mem[p0], layer0_golden[p0]);
 				end
 			end
 		end
 	end
-	if (err0 == 0) $display("Layer 0 (Convolutional Output) with Kernel is correct !");
-	else		 $display("Layer 0 (Convolutional Output) with Kernel be found %d error !", err0);
+	if (err0 == 0) $display("Layer 0 output is correct !");
+	else		 $display("Layer 0 output be found %d error !", err0);
 end
 end
 
 //-------------------------------------------------------------------------------------------------------------------
-initial begin  	// layer 1,  max-pooling output
+initial begin  	
 check1<= 0;
 wait(busy==1); wait(busy==0);
 if(check1 == 1) begin
 	err1 = 0;
 	for (p1=0; p1<=1023; p1=p1+1) begin
-		if (resultMem[p1] == resultGolden[p1]) ;
+		if (Layer1_Mem[p1] == layer1_golden[p1]) ;
 		else begin
 			err1 = err1 + 1;
 			begin 
-				$display("WRONG! Layer 1 (Max-pooling Output) with Kernel , Pixel %d is wrong!", p1);
-				$display("               The output data is %h, but the expected data is %h ", resultMem[p1], resultGolden[p1]);
+				$display("WRONG! Layer 1 output , Pixel %d is wrong!", p1);
+				$display("               The output data is %h, but the expected data is %h ", Layer1_Mem[p1], layer1_golden[p1]);
 			end
 		end
 	end
-	if (err1 == 0) $display("Layer 1 (Max-pooling Output) with Kernel is correct!");
-	else		 $display("Layer 1 (Max-pooling Output) with Kernel be found %d error !", err1);
+	if (err1 == 0) $display("Layer 1 output is correct!");
+	else		 $display("Layer 1 output be found %d error !", err1);
 end
 end
 
@@ -174,6 +171,9 @@ initial begin
 		else $display("FAIL!!!  There are %d errors! in Layer 1 \n", err1);
 
 	if ((check0|check1) == 0) $display("FAIL!!! No output data was found!! \n");
+
+
+	$display("terminate at %d cycle",cycle);
 	$display("-----------------------------------------------------\n");
       #(`CYCLE/2); $finish;
 end
