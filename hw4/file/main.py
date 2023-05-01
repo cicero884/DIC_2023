@@ -20,7 +20,8 @@ def gray_64x64(img):
     return np.asarray(small_img.convert('L'));
 
 def layer0(img_array):
-    img_conv = convolve2d(img_array,kernel,boundary='symm',mode='same')+bias;
+    img_pad = np.pad(img_array,((2,2),(2,2)),'edge');
+    img_conv = convolve2d(img_pad,kernel,mode='valid')+bias;
     img_relu = np.maximum(0,img_conv);
     return img_relu;
 
