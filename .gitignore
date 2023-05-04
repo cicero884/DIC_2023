@@ -4,9 +4,8 @@
 *.fsdb
 *.zip
 *.rar
-RTL category/
-Gate-Level category/
-Documentary category/
+midterm
+* category/
 
 *~
 
@@ -27,7 +26,8 @@ Documentary category/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
