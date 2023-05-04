@@ -31,16 +31,16 @@ def layer1(img_array):
     return img_round;
 
 def output(img_array,filename):
-    print(img_array)
+    print(img_array);
     img_fxp = Fxp(img_array,signed=True, n_word=13,n_frac=4);
-    print(img_fxp)
+    print(img_fxp);
     f = open(f"{filename}.dat","w");
     i=0;
     for column in img_fxp:
         for data in column:
             f.write(f"{data.bin()} //data {i}: {data}\n");
             i=i+1;
-    f.close
+    f.close();
 
     img_file = Image.fromarray(img_array.astype(np.uint8));
     img_file.save(f"{filename}.png");
@@ -60,6 +60,6 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         img=Image.open(sys.argv[1]);
         convert(img);
-        img.close()
+        img.close();
     else:
-        print("Usage:python ./converter.py image_name");
+        print("Usage:python ./maini.py image_name");

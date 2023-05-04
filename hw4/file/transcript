@@ -1,0 +1,83 @@
+# Loading project ATCONV
+vsim work.testfixture -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive -sdftyp /u_ATCONV=/home/cicero/code/DIC_2023/hw4/file/ATCONV_v.sdo
+# vsim work.testfixture -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive -sdftyp "/u_ATCONV=/home/cicero/code/DIC_2023/hw4/file/ATCONV_v.sdo" 
+# Start time: 21:29:22 on May 04,2023
+# Loading work.testfixture
+# Loading work.ATCONV
+# Loading work.hard_block
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_io_obuf
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_io_ibuf
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_clkctrl
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_mux41
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_ena_reg
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive.cycloneive_lcell_comb
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera.dffeas
+# Loading instances from /home/cicero/code/DIC_2023/hw4/file/ATCONV_v.sdo
+# Loading instances from ATCONV_v.sdo
+# Loading /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera.PRIM_GDFF_LOW
+# Loading timing data from /home/cicero/code/DIC_2023/hw4/file/ATCONV_v.sdo
+# Loading timing data from ATCONV_v.sdo
+# ** Note: (vsim-3587) SDF Backannotation Successfully Completed.
+#    Time: 0 ps  Iteration: 0  Instance: /testfixture File: /home/cicero/code/DIC_2023/hw4/file/testfixture.v
+run -all
+# -----------------------------------------------------
+# 
+# START!!! Simulation Start .....
+# 
+# -----------------------------------------------------
+# 
+# Layer 0 output is correct !
+# Layer 1 output is correct!
+#  
+# -----------------------------------------------------
+# 
+# --------------------- S U M M A R Y -----------------
+# 
+# Congratulations! Layer 0 data have been generated successfully! The result is PASS!!
+# 
+# Congratulations! Layer 1 data have been generated successfully! The result is PASS!!
+# 
+# terminate at      12327 cycle
+# -----------------------------------------------------
+# 
+# ** Note: $finish    : /home/cicero/code/DIC_2023/hw4/file/testfixture.v(178)
+#    Time: 616357647 ps  Iteration: 0  Instance: /testfixture
+# 1
+# Break in Module testfixture at /home/cicero/code/DIC_2023/hw4/file/testfixture.v line 178
+# Compile of testfixture.v was successful.
+# Compile of ATCONV.v was successful.
+# 2 compiles, 0 failed with no errors.
+vsim -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive work.testfixture
+# End time: 21:34:00 on May 04,2023, Elapsed time: 0:04:38
+# Errors: 0, Warnings: 4
+# vsim -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/altera -L /home/cicero/intelFPGA/20.1/modelsim_ase/altera/verilog/cycloneive work.testfixture 
+# Start time: 21:34:00 on May 04,2023
+# Loading work.testfixture
+# Loading work.ATCONV
+run -all
+# -----------------------------------------------------
+# 
+# START!!! Simulation Start .....
+# 
+# -----------------------------------------------------
+# 
+# Layer 0 output is correct !
+# Layer 1 output is correct!
+#  
+# -----------------------------------------------------
+# 
+# --------------------- S U M M A R Y -----------------
+# 
+# Congratulations! Layer 0 data have been generated successfully! The result is PASS!!
+# 
+# Congratulations! Layer 1 data have been generated successfully! The result is PASS!!
+# 
+# terminate at      12326 cycle
+# -----------------------------------------------------
+# 
+# ** Note: $finish    : /home/cicero/code/DIC_2023/hw4/file/testfixture.v(178)
+#    Time: 616300 ns  Iteration: 0  Instance: /testfixture
+# 1
+# Break in Module testfixture at /home/cicero/code/DIC_2023/hw4/file/testfixture.v line 178
+# End time: 21:36:34 on May 04,2023, Elapsed time: 0:02:34
+# Errors: 0, Warnings: 1

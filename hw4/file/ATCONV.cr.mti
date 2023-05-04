@@ -1,7 +1,6 @@
-/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo {1 {vlog -work work -stats=none /home/cicero/code/DIC_2023/hw4/file/ATCONV.vo
+/home/cicero/code/DIC_2023/hw4/file/ATCONV.v {1 {vlog -work work -stats=none /home/cicero/code/DIC_2023/hw4/file/ATCONV.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module ATCONV
--- Compiling module hard_block
 
 Top level modules:
 	ATCONV
