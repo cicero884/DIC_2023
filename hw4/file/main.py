@@ -62,4 +62,4 @@ if __name__ == "__main__":
         convert(img);
         img.close();
     else:
-        print("Usage:python ./maini.py image_name");
+        print("Usage:python ./main.py image_name");
