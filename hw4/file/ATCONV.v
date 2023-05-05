@@ -19,34 +19,40 @@ module  ATCONV(
 	output csel
 );
 
-wire signed [12:0] kernel [0:8];
-assign kernel[0] = 13'h1FFF; assign kernel[1] = 13'h1FFE; assign kernel[2] = 13'h1FFF;
-assign kernel[3] = 13'h1FFC; assign kernel[4] = 13'h0010; assign kernel[5] = 13'h1FFC;
-assign kernel[6] = 13'h1FFF; assign kernel[7] = 13'h1FFE; assign kernel[8] = 13'h1FFF;
-wire [2:0]kernel_shift[0:8];
-assign {kernel_shift[0],kernel_shift[1],kernel_shift[2]}={3'd0,3'd1,3'd0};
-assign {kernel_shift[3],kernel_shift[4],kernel_shift[5]}={3'd2,3'd4,3'd2};
-assign {kernel_shift[6],kernel_shift[7],kernel_shift[8]}={3'd0,3'd1,3'd0};
+/*
+wire signed [12:0] kernel [0:2][0:2];
+assign kernel[0][0] = 13'h1FFF; assign kernel[0][1] = 13'h1FFE; assign kernel[0][2] = 13'h1FFF;
+assign kernel[1][0] = 13'h1FFC; assign kernel[1][1] = 13'h0010; assign kernel[1][2] = 13'h1FFC;
+assign kernel[2][0] = 13'h1FFF; assign kernel[2][1] = 13'h1FFE; assign kernel[2][2] = 13'h1FFF;
+*/
+wire signed [5:0] kernel [0:2][0:2];
+assign kernel[0][0] = 6'h3F; assign kernel[0][1] = 6'h3E; assign kernel[0][2] = 6'h3F;
+assign kernel[1][0] = 6'h3C; assign kernel[1][1] = 6'h10; assign kernel[1][2] = 6'h3C;
+assign kernel[2][0] = 6'h3F; assign kernel[2][1] = 6'h3E; assign kernel[2][2] = 6'h3F;
+wire [2:0]kernel_shift[0:2][0:2];
+assign {kernel_shift[0][0],kernel_shift[0][1],kernel_shift[0][2]}={3'd0,3'd1,3'd0};
+assign {kernel_shift[1][0],kernel_shift[1][1],kernel_shift[1][2]}={3'd2,3'd4,3'd2};
+assign {kernel_shift[2][0],kernel_shift[2][1],kernel_shift[2][2]}={3'd0,3'd1,3'd0};
 wire signed [12:0] bias;
 assign bias = 13'h1FF4;
 
 /* data-request */
 // separate main pattern into four group[0] for data-reuse
-// ababab
-// cdcdcd
-// ababab
-// cdcdcd
-// ababab
-// cdcdcd
+// 010101
+// 232323
+// 010101
+// 232323
+// 010101
+// 232323
 reg [4:0]x[0:1],y[0:1];
 reg [11:0]L0_caddr_wr;
 reg [9:0] L1_caddr_wr;
 reg [2:0]group[0:1];
 localparam RIGHT=2'b00;
-localparam LEFT=2'b01;
-localparam DOWN=2'b10;
+localparam LEFT =2'b01;
+localparam DOWN =2'b10;
 localparam RESET=2'b11;
-reg [4:0] req_pos;
+reg [1:0] req_pos[0:1];//0:x,1:y
 reg [1:0] direct,direct_next;
 
 /* cur direction */
@@ -94,60 +100,69 @@ reg [2:0] direct_act[0:1];
 always@(*) begin
 	case(direct)//synthesis parallel_case full_case
 		RIGHT,LEFT: begin//(2,5,8),(0,3,6)
-			if(req_pos>5) direct_act[0]={1'b1,direct_next};//end(next state)
+			if(req_pos[1][1]) direct_act[0]={1'b1,direct_next};//end(next state)
 			else direct_act[0]={1'b0,direct};
 		end
 		DOWN,RESET: begin//(6,7,8),(all)
-			if(req_pos>7) direct_act[0]={1'b1,direct_next};//end(next state)
+			if(req_pos[0][1]&&req_pos[1][1]) direct_act[0]={1'b1,direct_next};//end(next state)
 			else direct_act[0]={1'b0,direct};
 		end
 	endcase
 end
-/* xy,req_pos[0] controller */
-// 012
-// 345
-// 678
+/* xy,req_pos controller */
+// req_pos[0]:x
+// req_pos[1]:y
+// (0,0)(0,1)(0,2)
+// (1,0)(1,1)(1,2)
+// (2,0)(2,1)(2,2)
 always@(posedge clk,posedge reset) begin
 	if(reset) begin
 		x[0]<=0;
 		y[0]<=0;
 		group[0]<=0;
-		req_pos<=0;
+		req_pos[0]<=0;
+		req_pos[1]<=0;
 		direct<=RESET;
 	end
 	else if(busy) begin
 		//cur direct(set req_pos)
 		case(direct_act[0])//synthesis parallel_case full_case
 			//jump
-			{1'b1,RIGHT}:begin//(2),5,8
-				req_pos<=2;
+			{1'b1,RIGHT}:begin
+				req_pos[1][1]<=0;
 				x[0]<=x[0]+1;
 			end
-			{1'b1,LEFT }:begin//(0),3,6
-				req_pos<=0;
+			{1'b1,LEFT }:begin
+				req_pos[0][1]<=0;
+				req_pos[1][1]<=0;
 				x[0]<=x[0]-1;
 			end
-			{1'b1,DOWN }:begin//(6),7,8
-				req_pos<=6;
+			{1'b1,DOWN }:begin
+				req_pos[0][1]<=0;
 				y[0]<=y[0]+1;
 			end
-			{1'b1,RESET}:begin//(0),1,2,3,4,5,6,7,8
-				req_pos<=0;
+			{1'b1,RESET}:begin
+				req_pos[0][1]<=0;
+				req_pos[1][1]<=0;
 				y[0]<=y[0]+1;//overflow to 0
 				group[0]<=group[0]+1;
 			end
 			//stay
-			{1'b0,RIGHT}:begin//2,(5,8)
-				req_pos<=req_pos+3;
+			{1'b0,RIGHT}:begin
+				req_pos[1]<=req_pos[1]+1;
 			end
-			{1'b0,LEFT }:begin//0,(3,6)
-				req_pos<=req_pos+3;
+			{1'b0,LEFT }:begin
+				req_pos[1]<=req_pos[1]+1;
 			end
-			{1'b0,DOWN }:begin//6,(7,8)
-				req_pos<=req_pos+1;
+			{1'b0,DOWN }:begin
+				req_pos[0]<=req_pos[0]+1;
 			end
-			{1'b0,RESET}:begin//0,(1,2,3,4,5,6,7,8)
-				req_pos<=req_pos+1;
+			{1'b0,RESET}:begin
+				if(req_pos[0][1]) begin
+					req_pos[1]<=req_pos[1]+1;
+					req_pos[0][1]<=0;
+				end
+				else req_pos[0]<=req_pos[0]+1;
 			end
 		endcase
 		if(direct_act[0][2]) direct<=direct_next;
@@ -161,17 +176,8 @@ reg [6:0] tmp_x,tmp_y;
 always@(*) begin
 	tmp_x={x[0],group[0][0]};
 	tmp_y={y[0],group[0][1]};
-	case(req_pos)//synthesis full_case parallel_case
-		4'd0: {tmp_x,tmp_y}={tmp_x-7'd2,tmp_y-7'd2};
-		4'd1: {tmp_x,tmp_y}={tmp_x     ,tmp_y-7'd2};
-		4'd2: {tmp_x,tmp_y}={tmp_x+7'd2,tmp_y-7'd2};
-		4'd3: {tmp_x,tmp_y}={tmp_x-7'd2,tmp_y     };
-		4'd4: {tmp_x,tmp_y}={tmp_x     ,tmp_y     };
-		4'd5: {tmp_x,tmp_y}={tmp_x+7'd2,tmp_y     };
-		4'd6: {tmp_x,tmp_y}={tmp_x-7'd2,tmp_y+7'd2};
-		4'd7: {tmp_x,tmp_y}={tmp_x     ,tmp_y+7'd2};
-		4'd8: {tmp_x,tmp_y}={tmp_x+7'd2,tmp_y+7'd2};
-	endcase
+	tmp_x=tmp_x+$signed({req_pos[0]-1,1'b0});
+	tmp_y=tmp_y+$signed({req_pos[1]-1,1'b0});
 	if(tmp_x[6]) begin//x[0] out board
 		if(tmp_x[5]) tmp_x=6'd0;//-
 		else tmp_x=~6'd0;//+
@@ -184,29 +190,32 @@ always@(*) begin
 end
 /********************************************************/
 //write into 3*3
-reg [7:0] cache[0:8];
+reg [7:0] cache[0:2][0:2];//cache[y][x]
 reg calc_valid;
 integer i;
 always@(posedge clk) begin
 	case(direct_act[1]) //synthesis parallel_case
 		{1'b1,RIGHT}: begin
-			for(i=0;i<9;i=i+3) begin
-				cache[i]<=cache[i+1];
-				cache[i+1]<=cache[i+2];
+			for(i=0;i<3;i=i+1) begin
+				cache[i][0]<=cache[i][1];
+				cache[i][1]<=cache[i][2];
 			end
 		end
 		{1'b1,LEFT}: begin
-			for(i=2;i<9;i=i+3) begin
-				cache[i]<=cache[i-1];
-				cache[i-1]<=cache[i-2];
+			for(i=0;i<3;i=i+1) begin
+				cache[i][2]<=cache[i][1];
+				cache[i][1]<=cache[i][0];
 			end
 		end
 		{1'b1,DOWN}: begin
-			for(i=0;i<6;i=i+1) cache[i]<=cache[i+3];
+			for(i=0;i<3;i=i+1) begin
+				cache[0][i]<=cache[1][i];
+				cache[1][i]<=cache[2][i];
+			end
 		end
 	endcase
-	cache[req_pos]<=idata[11:4];//remove idata sign bit and decimel point 4 bit(all zero)
-	if(direct_act[1][1:0]==RESET && req_pos<6) calc_valid<=0;
+	cache[req_pos[1]][req_pos[0]]<=idata[11:4];//remove idata sign bit and decimel point 4 bit(all zero)
+	if(direct_act[1][1:0]==RESET && !req_pos[1][1]) calc_valid<=0;
 	else calc_valid<=1;
 
 	direct_act[1]<=direct_act[0];
@@ -244,19 +253,22 @@ reg signed [8:0]conv_sign[0:2];
 reg signed [12:0]conv_mul[0:2];
 always@(*) begin
 	for(i=0;i<3;i=i+1) begin
-		if(i==1 && cnt==1) conv_sign[i]<=cache[cnt*3+i];
-		else conv_sign[i]<=-cache[cnt*3+i];
+		conv_mul[i]<=$signed({1'b0,cache[cnt][i]})*kernel[cnt][i];
+	end
+	/*
+	for(i=0;i<3;i=i+1) begin
+		if(i==1 && cnt==1) conv_sign[i]<=cache[cnt][i];
+		else conv_sign[i]<=-cache[cnt][i];
 	end
 	for(i=0;i<3;i=i+1) begin
-		conv_mul[i]<=conv_sign[i]<<kernel_shift[cnt*3+i];
+		conv_mul[i]<=conv_sign[i]<<({cnt[0],2'b01}<<i[0]);
 	end
+	*/
 end
 /* conv add */
 reg signed [12:0]conv_add,conv_data;
-wire signed [12:0]conv_tmp;
 wire [11:0] relu;
 reg L0_w;
-assign conv_tmp=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
 always@(posedge clk) begin
 	if(cnt[0]==0) conv_add<=(bias+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
 	else conv_add<=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
