@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module  ATCONV(
+(* multstyle = "dsp" *) module ATCONV(
 	input		clk,
 	input		reset,
 	output	reg	busy,	
@@ -19,27 +19,15 @@ module  ATCONV(
 	output csel
 );
 
-/*
-wire signed [12:0] kernel [0:2][0:2];
-assign kernel[0][0] = 13'h1FFF; assign kernel[0][1] = 13'h1FFE; assign kernel[0][2] = 13'h1FFF;
-assign kernel[1][0] = 13'h1FFC; assign kernel[1][1] = 13'h0010; assign kernel[1][2] = 13'h1FFC;
-assign kernel[2][0] = 13'h1FFF; assign kernel[2][1] = 13'h1FFE; assign kernel[2][2] = 13'h1FFF;
-*/
 wire signed [5:0] kernel [0:2][0:2];
-assign kernel[0][0] = 6'h3F; assign kernel[0][1] = 6'h3E; assign kernel[0][2] = 6'h3F;
-assign kernel[1][0] = 6'h3C; assign kernel[1][1] = 6'h10; assign kernel[1][2] = 6'h3C;
-assign kernel[2][0] = 6'h3F; assign kernel[2][1] = 6'h3E; assign kernel[2][2] = 6'h3F;
-wire [2:0]kernel_shift[0:2][0:2];
-assign {kernel_shift[0][0],kernel_shift[0][1],kernel_shift[0][2]}={3'd0,3'd1,3'd0};
-assign {kernel_shift[1][0],kernel_shift[1][1],kernel_shift[1][2]}={3'd2,3'd4,3'd2};
-assign {kernel_shift[2][0],kernel_shift[2][1],kernel_shift[2][2]}={3'd0,3'd1,3'd0};
-wire signed [12:0] bias;
-assign bias = 13'h1FF4;
+assign {kernel[0][0],kernel[0][1],kernel[0][2]}={6'h3F,6'h3E,6'h3F};
+assign {kernel[1][0],kernel[1][1],kernel[1][2]}={6'h3C,6'h10,6'h3C};
+assign {kernel[2][0],kernel[2][1],kernel[2][2]}={6'h3F,6'h3E,6'h3F};
+wire signed [4:0] bias;
+assign bias = 5'h14;
 
 /* data-request */
 // separate main pattern into four group[0] for data-reuse
-// 010101
-// 232323
 // 010101
 // 232323
 // 010101
@@ -253,35 +241,33 @@ reg signed [8:0]conv_sign[0:2];
 reg signed [12:0]conv_mul[0:2];
 always@(*) begin
 	for(i=0;i<3;i=i+1) begin
-		conv_mul[i]<=$signed({1'b0,cache[cnt][i]})*kernel[cnt][i];
+		conv_mul[i]=$signed({1'b0,cache[cnt][i]})*kernel[cnt][i];
 	end
-	/*
-	for(i=0;i<3;i=i+1) begin
-		if(i==1 && cnt==1) conv_sign[i]<=cache[cnt][i];
-		else conv_sign[i]<=-cache[cnt][i];
-	end
-	for(i=0;i<3;i=i+1) begin
-		conv_mul[i]<=conv_sign[i]<<({cnt[0],2'b01}<<i[0]);
-	end
-	*/
 end
 /* conv add */
 reg signed [12:0]conv_add,conv_data;
 wire [11:0] relu;
 reg L0_w;
 always@(posedge clk) begin
-	if(cnt[0]==0) conv_add<=(bias+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
-	else conv_add<=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+	if(cnt[0]==0) begin
+		conv_add <=(bias    +conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+	end
+	else begin
+		conv_add <=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+	end
 
-	if(cnt[1]) conv_data=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+	if(cnt[1]) begin
+		conv_data<=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
+	end
 end
 // should try store in latch
 //always@(posedge clk) begin
 //	if(cnt[1]) conv_data=(conv_add+conv_mul[0])+(conv_mul[1]+conv_mul[2]);
 //end
+
 /* save addr when cnt==1 */
-//I dont know why do I need to reset this to pass gate-level(in dcnxt)
 /*
+//I dont know why do I need to reset group to pass gate-level(in dcnxt)
 always@(posedge clk,posedge reset) begin
 	if(reset) group[1]=0;
 	else if(cnt[0]) group[1]=group[0];

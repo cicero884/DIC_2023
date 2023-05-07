@@ -10,52 +10,52 @@ z2
 cModel Technology
 d/home/cicero/code/DIC_2023/hw3/file
 vATCONV
-Z0 !s110 1683279960
+Z0 !s110 1683434279
 !i10b 1
-!s100 P:6@`P`QHONbSaNB2M]Ko0
+!s100 HXkNbVG5HS7F_[lfbGMTK2
 Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
-ISb>nX4ColX7MVVEo9?MB41
+IMkjeXD]SYNLoY^HXB0c_D1
 Z2 VDg1SIo80bB@j0V0VzS_@n1
 Z3 d/home/cicero/code/DIC_2023/hw4/file
-Z4 w1683279707
-Z5 8/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo
-Z6 F/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo
-!i122 61
-L0 32 11422
-Z7 OV;L;2020.1;71
+w1683433479
+8/home/cicero/code/DIC_2023/hw4/file/ATCONV.v
+F/home/cicero/code/DIC_2023/hw4/file/ATCONV.v
+!i122 79
+L0 2 318
+Z4 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z8 !s108 1683279960.000000
-!s107 /home/cicero/code/DIC_2023/hw4/file/ATCONV.vo|
-Z9 !s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo|
+Z5 !s108 1683434279.000000
+!s107 /home/cicero/code/DIC_2023/hw4/file/ATCONV.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw4/file/ATCONV.v|
 !i113 1
-Z10 o-work work
-Z11 tCvgOpt 0
+Z6 o-work work
+Z7 tCvgOpt 0
 n@a@t@c@o@n@v
 vhard_block
-R0
+!s110 1683433658
 !i10b 1
-!s100 IhSZUXD2NcfRU>dGJ:V]X1
+!s100 XmI<KNmSm[?D7UHo[JI<51
 R1
-I::OF^z90Y17h2>195eN]53
+I8[N3FYzn1dbJC`@7`:W[R1
 R2
 R3
+w1683433512
+8/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo
+F/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo
+!i122 77
+L0 10863 34
 R4
-R5
-R6
-!i122 61
-L0 11455 34
-R7
 r1
 !s85 0
 31
-R8
-Z12 !s107 /home/cicero/code/DIC_2023/hw4/file/ATCONV.vo|
-R9
+!s108 1683433658.000000
+!s107 /home/cicero/code/DIC_2023/hw4/file/ATCONV.vo|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw4/file/ATCONV.vo|
 !i113 1
-R10
-R11
+R6
+R7
 vtestfixture
 R0
 !i10b 1
@@ -67,15 +67,15 @@ R3
 w1682499587
 8/home/cicero/code/DIC_2023/hw4/file/testfixture.v
 F/home/cicero/code/DIC_2023/hw4/file/testfixture.v
-!i122 60
+!i122 78
 L0 8 173
-R7
+R4
 r1
 !s85 0
 31
-R8
+R5
 !s107 /home/cicero/code/DIC_2023/hw4/file/testfixture.v|
 !s90 -reportprogress|300|-work|work|-stats=none|/home/cicero/code/DIC_2023/hw4/file/testfixture.v|
 !i113 1
-R10
-R11
+R6
+R7
