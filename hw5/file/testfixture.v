@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-`define End_CYCLE 1000000
+`define End_CYCLE 2000000
 `define cycle 40.0
 
 `define PAT "./mosaic/test1.dat"  
