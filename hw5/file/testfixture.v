@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-`define End_CYCLE 2000000
+`define End_CYCLE 1000000
 `define cycle 40.0
 
 `define PAT "./mosaic/test1.dat"  
@@ -40,6 +40,11 @@ initial begin
 end
 
 initial begin
+	$fsdbDumpfile("demosaic.fsdb");
+	$fsdbDumpvars();
+	$fsdbDumpMDA;
+end
+initial begin
 	clk = 0;
 	reset = 0;
 	in_en = 0;
@@ -55,6 +60,7 @@ initial begin
 		MEM_G[i] = 0;
 		MEM_B[i] = 0;
 	end
+
 end
 
 always #(`cycle/2) clk = ~clk;
