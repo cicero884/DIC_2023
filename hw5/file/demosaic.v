@@ -38,7 +38,7 @@ localparam blue=2;
 
 reg calc_en;
 reg [2:0]mem_w_req;
-reg [7:0]cache[0:8][0:2];
+reg [7:0]cache[0:12][0:2];
 
 // main ctrl(xy,counter)
 always@(posedge clk, posedge reset) begin
@@ -59,14 +59,14 @@ always@(posedge clk, posedge reset) begin
 				calc_en<=1'b1;
 			end
 			Bilinear: begin // fill missing with bilinear
-				calc_en<=reqCNT[3];
-				if(reqCNT[3]) begin
+				calc_en<=(reqCNT==12);
+				if(reqCNT==12) begin
 					if(&{y[0],x[0]}) begin
 						{y[0],x[0]}<=14'd1;
 						state[0]<=state[0]+1;
 					end
 					else {y[0],x[0]}<={y[0],x[0]}+1;
-					reqCNT[3]<=0;
+					reqCNT<=0;
 				end
 				else reqCNT<=reqCNT+1;
 			end
@@ -135,7 +135,11 @@ always@(*) begin
 				4'd5: {req_y,req_x}={req_y-8'd1,req_x+8'd1};
 				4'd6: {req_y,req_x}={req_y+8'd1,req_x+8'd1};
 				4'd7: {req_y,req_x}={req_y+8'd1,req_x-8'd1};
-				4'd8: {req_y,req_x}={req_y     ,req_x     };
+				4'd8: {req_y,req_x}={req_y-8'd2,req_x     };
+				4'd9: {req_y,req_x}={req_y     ,req_x+8'd2};
+				4'd10: {req_y,req_x}={req_y+8'd2,req_x     };
+				4'd11: {req_y,req_x}={req_y     ,req_x-8'd2};
+				4'd12: {req_y,req_x}={req_y     ,req_x     };
 			endcase
 		end
 		RefineGreen,RefineRinG,RefineBinG: begin
@@ -236,10 +240,11 @@ always@(posedge clk) begin
 	cache[reqCNT][red]  <=(r_req[red])  ? rdata_r:8'dx;
 	cache[reqCNT][blue] <=(r_req[blue]) ? rdata_b:8'dx;
 end
+//  8
 // 405
-// 381
+//b3c19
 // 726
-
+//  a
 //   4
 //   0
 // 73815
@@ -251,6 +256,7 @@ end
 //   8
 //  7 6
 // 3   2
+reg signed[13:0]bi_data[0:2];
 reg [7:0]calc_bi_data[0:2];
 // weight=1/(a+1)
 reg [12:0]a[0:3];
@@ -269,26 +275,31 @@ always@(posedge clk) begin
 			Bilinear: begin
 				case({y[1][0],x[1][0]})
 					2'b00: begin
-						calc_bi_data[green]<=cache[8][green];
-						calc_bi_data[red]  <=({1'd0,cache[3][red]}+cache[1][red]+1)>>1;
-						calc_bi_data[blue] <=({1'd0,cache[0][blue]}+cache[2][blue]+1)>>1;
+						bi_data[green]=cache[4'hc][green]*8;
+						bi_data[red]  =(cache[3][red]+cache[1][red])*4+cache[4'hc][green]*5-cache[4][green]-cache[5][green]-cache[6][green]-cache[7][green]+((cache[8][green]+cache[4'ha][green])>>1)-cache[9][green]-cache[4'hb][green];
+						bi_data[blue] =(cache[0][blue]+cache[2][blue])*4+cache[4'hc][green]*5-cache[4][green]-cache[5][green]-cache[6][green]-cache[7][green]+((cache[9][green]+cache[4'hb][green])>>1)-cache[8][green]-cache[4'ha][green];
 					end
 					2'b01: begin
-						calc_bi_data[green]<=(({2'd0,cache[0][green]}+cache[1][green])+({2'd0,cache[2][green]}+cache[3][green])+2)>>2;
-						calc_bi_data[red]  <=cache[8][red];
-						calc_bi_data[blue] <=(({2'd0,cache[4][blue]}+cache[5][blue])+({2'd0,cache[6][blue]}+cache[7][blue])+2)>>2;
+						bi_data[green]=cache[4'hc][red]*4+(cache[0][green]+cache[1][green]+cache[2][green]+cache[3][green])*2-cache[8][red]-cache[9][red]-cache[10][red]-cache[11][red];
+						bi_data[red]  =cache[4'hc][red]*8;
+						bi_data[blue] =cache[4'hc][red]*6+(cache[4][blue]+cache[5][blue]+cache[6][blue]+cache[7][blue])*2-(cache[8][red]+cache[9][red]+cache[10][red]+cache[11][red])*3/2;
 					end
 					2'b10: begin
-						calc_bi_data[green]<=(({2'd0,cache[0][green]}+cache[1][green])+({2'd0,cache[2][green]}+cache[3][green])+2)>>2;
-						calc_bi_data[red]  <=(({2'd0,cache[4][red]}+cache[5][red])+({2'd0,cache[6][red]}+cache[7][red])+2)>>2;
-						calc_bi_data[blue] <=cache[8][blue];
+						bi_data[green]=cache[4'hc][blue]*4+(cache[0][green]+cache[1][green]+cache[2][green]+cache[3][green])*2-cache[8][blue]-cache[9][blue]-cache[10][blue]-cache[11][blue];
+						bi_data[red]  =cache[4'hc][blue]*6+(cache[4][red]+cache[5][red]+cache[6][red]+cache[7][red])*2-(cache[8][blue]+cache[9][blue]+cache[10][blue]+cache[11][blue])*3/2;
+						bi_data[blue] =cache[4'hc][blue]*8;
 					end
 					2'b11: begin
-						calc_bi_data[green]<=cache[8][green];
-						calc_bi_data[red]  <=({1'd0,cache[0][red]}+cache[2][red]+1)>>1;
-						calc_bi_data[blue] <=({1'd0,cache[1][blue]}+cache[3][blue]+1)>>1;
+						bi_data[green]=cache[4'hc][green]*8;
+						bi_data[red]  =(cache[2][red]+cache[0][red])*4+cache[4'hc][green]*5-cache[4][green]-cache[5][green]-cache[6][green]-cache[7][green]+((cache[9][green]+cache[4'hb][green])>>1)-cache[8][green]-cache[4'ha][green];
+						bi_data[blue] =(cache[3][blue]+cache[1][blue])*4+cache[4'hc][green]*5-(cache[4][green]+cache[5][green]+cache[6][green]+cache[7][green])+((cache[8][green]+cache[4'ha][green])>>1)-(cache[9][green]+cache[4'hb][green]);
 					end
 				endcase
+				for(i=0;i<3;i=i+1) begin
+					if(bi_data[i][13]) bi_data[i]={{3{bi_data[i][13]}},bi_data[i][13:3]};
+					else bi_data[i]=bi_data[i][13:3]+bi_data[i][2];
+					calc_bi_data[i]<=(bi_data[i][13])? 8'h00: (|bi_data[i][12:8])? 8'hff:bi_data[i];
+				end
 			end
 			RefineGreen: begin
 				if(y[1][0]) begin
@@ -569,7 +580,7 @@ for(gen_i=0;gen_i<3;gen_i=gen_i+1) begin
 		end
 	end
 	always@(*) begin
-		if((!r_req[gen_i]) && (w_req[gen_i] || w_wait[gen_i])) wr[gen_i]=1'b1;
+		if((!r_req[gen_i]) && (w_wait[gen_i])) wr[gen_i]=1'b1;
 		else wr[gen_i]=1'b0;
 	end
 	assign addr[gen_i]=wr[gen_i]? w_addr_cache[gen_i]:r_addr[gen_i];
