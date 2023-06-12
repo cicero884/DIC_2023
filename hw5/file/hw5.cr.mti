@@ -1,0 +1,15 @@
+/home/cicero/code/DIC_2023/hw5/file/demosaic.v {1 {vlog -work work -stats=none /home/cicero/code/DIC_2023/hw5/file/demosaic.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module demosaic
+
+Top level modules:
+	demosaic
+
+} {} {}} /home/cicero/code/DIC_2023/hw5/file/testfixture.v {1 {vlog -work work -stats=none /home/cicero/code/DIC_2023/hw5/file/testfixture.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module testfixture
+
+Top level modules:
+	testfixture
+
+} {} {}}

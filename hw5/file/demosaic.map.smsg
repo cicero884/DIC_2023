@@ -1,0 +1,14 @@
+Warning (10273): Verilog HDL warning at demosaic.v(156): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 156
+Warning (10273): Verilog HDL warning at demosaic.v(170): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 170
+Warning (10273): Verilog HDL warning at demosaic.v(239): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 239
+Warning (10273): Verilog HDL warning at demosaic.v(240): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 240
+Warning (10273): Verilog HDL warning at demosaic.v(241): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 241
+Warning (10268): Verilog HDL information at demosaic.v(270): always construct contains both blocking and non-blocking assignments File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 270
+Warning (10268): Verilog HDL information at demosaic.v(422): always construct contains both blocking and non-blocking assignments File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 422
+Warning (10268): Verilog HDL information at demosaic.v(456): always construct contains both blocking and non-blocking assignments File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 456
+Warning (10268): Verilog HDL information at demosaic.v(501): always construct contains both blocking and non-blocking assignments File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 501
+Warning (10273): Verilog HDL warning at demosaic.v(525): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 525
+Warning (10273): Verilog HDL warning at demosaic.v(531): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 531
+Warning (10273): Verilog HDL warning at demosaic.v(538): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 538
+Warning (10273): Verilog HDL warning at demosaic.v(544): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 544
+Warning (10273): Verilog HDL warning at demosaic.v(550): extended using "x" or "z" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 550

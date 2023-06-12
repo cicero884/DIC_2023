@@ -40,11 +40,6 @@ initial begin
 end
 
 initial begin
-	$fsdbDumpfile("demosaic.fsdb");
-	$fsdbDumpvars();
-	$fsdbDumpMDA;
-end
-initial begin
 	clk = 0;
 	reset = 0;
 	in_en = 0;

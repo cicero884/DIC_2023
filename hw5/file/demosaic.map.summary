@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Mon Jun 12 20:21:06 2023
+Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+Revision Name : demosaic
+Top-level Entity Name : demosaic
+Family : Cyclone IV E
+Total logic elements : 4,494
+    Total combinational functions : 4,079
+    Dedicated logic registers : 636
+Total registers : 636
+Total pins : 105
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 4
+Total PLLs : 0

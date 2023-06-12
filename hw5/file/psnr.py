@@ -22,8 +22,8 @@ for i in sorted(os.listdir('./png')):
     result = np.array(Image.open('./png/' + i), dtype=np.float32)
     golden = np.array(Image.open('./golden/' + i), dtype=np.float32)
 
-    b = 1
-    diff = result[b:-1-b,b:-1-b,:]-golden[b:-1-b,b:-1-b,:]
+    b = 2
+    diff = result[b:-b,b:-b,:]-golden[b:-b,b:-b,:]
     num = np.size(diff[:,:,1])
     MSE_R = np.sum(np.power(diff[:,:,2],2)) / num
     MSE_G = np.sum(np.power(diff[:,:,1],2)) / num

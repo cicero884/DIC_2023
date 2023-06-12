@@ -565,7 +565,7 @@ assign {addr_g,addr_r,addr_b}={addr[0],addr[1],addr[2]};
 assign {wdata_g,wdata_r,wdata_b}={w_data_cache[0],w_data_cache[1],w_data_cache[2]};
 genvar gen_i;
 generate
-for(gen_i=0;gen_i<3;gen_i=gen_i+1) begin
+for(gen_i=0;gen_i<3;gen_i=gen_i+1) begin : mem_ctrl
 	always @(posedge clk,posedge reset) begin
 		if(reset) begin
 			w_wait[gen_i]<=1'b0;

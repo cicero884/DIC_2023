@@ -1,0 +1,530 @@
+Analysis & Synthesis report for demosaic
+Mon Jun 12 20:21:06 2023
+Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis DSP Block Usage Summary
+  9. Registers Removed During Synthesis
+ 10. General Register Statistics
+ 11. Inverted Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult0
+ 14. lpm_mult Parameter Settings by Entity Instance
+ 15. Post-Synthesis Netlist Statistics for Top Partition
+ 16. Elapsed Time Per Partition
+ 17. Analysis & Synthesis Messages
+ 18. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2020  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++------------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Mon Jun 12 20:21:06 2023       ;
+; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
+; Revision Name                      ; demosaic                                    ;
+; Top-level Entity Name              ; demosaic                                    ;
+; Family                             ; Cyclone IV E                                ;
+; Total logic elements               ; 4,494                                       ;
+;     Total combinational functions  ; 4,079                                       ;
+;     Dedicated logic registers      ; 636                                         ;
+; Total registers                    ; 636                                         ;
+; Total pins                         ; 105                                         ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 4                                           ;
+; Total PLLs                         ; 0                                           ;
++------------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                              ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; EP4CE55F23A7       ;                    ;
+; Top-level entity name                                            ; demosaic           ; demosaic           ;
+; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
+; Use smart compilation                                            ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 8           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 8           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.1%      ;
+;     Processor 3            ;   0.0%      ;
+;     Processor 4            ;   0.0%      ;
+;     Processor 5            ;   0.0%      ;
+;     Processor 6            ;   0.0%      ;
+;     Processor 7            ;   0.0%      ;
+;     Processor 8            ;   0.0%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                         ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                     ; Library ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------------+---------+
+; demosaic.v                       ; yes             ; Auto-Found Verilog HDL File  ; /home/cicero/code/DIC_2023/hw5/file/demosaic.v                                   ;         ;
+; lpm_mult.tdf                     ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/lpm_mult.tdf    ;         ;
+; aglobal201.inc                   ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/aglobal201.inc  ;         ;
+; lpm_add_sub.inc                  ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/lpm_add_sub.inc ;         ;
+; multcore.inc                     ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/multcore.inc    ;         ;
+; bypassff.inc                     ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/bypassff.inc    ;         ;
+; altshift.inc                     ; yes             ; Megafunction                 ; /home/cicero/intelFPGA_lite/20.1/quartus/libraries/megafunctions/altshift.inc    ;         ;
+; db/mult_66t.tdf                  ; yes             ; Auto-Generated Megafunction  ; /home/cicero/code/DIC_2023/hw5/file/db/mult_66t.tdf                              ;         ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------------------------------------+---------+
+
+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimated Total logic elements              ; 4,494     ;
+;                                             ;           ;
+; Total combinational functions               ; 4079      ;
+; Logic element usage by number of LUT inputs ;           ;
+;     -- 4 input functions                    ; 1383      ;
+;     -- 3 input functions                    ; 2121      ;
+;     -- <=2 input functions                  ; 575       ;
+;                                             ;           ;
+; Logic elements by mode                      ;           ;
+;     -- normal mode                          ; 2318      ;
+;     -- arithmetic mode                      ; 1761      ;
+;                                             ;           ;
+; Total registers                             ; 636       ;
+;     -- Dedicated logic registers            ; 636       ;
+;     -- I/O registers                        ; 0         ;
+;                                             ;           ;
+; I/O pins                                    ; 105       ;
+;                                             ;           ;
+; Embedded Multiplier 9-bit elements          ; 4         ;
+;                                             ;           ;
+; Maximum fan-out node                        ; clk~input ;
+; Maximum fan-out                             ; 636       ;
+; Total fan-out                               ; 14985     ;
+; Average fan-out                             ; 3.04      ;
++---------------------------------------------+-----------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                        ;
++---------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+-------------+--------------+
+; Compilation Hierarchy Node      ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                              ; Entity Name ; Library Name ;
++---------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+-------------+--------------+
+; |demosaic                       ; 4079 (4056)         ; 636 (636)                 ; 0           ; 4            ; 0       ; 2         ; 105  ; 0            ; |demosaic                                        ; demosaic    ; work         ;
+;    |lpm_mult:Mult0|             ; 23 (0)              ; 0 (0)                     ; 0           ; 4            ; 0       ; 2         ; 0    ; 0            ; |demosaic|lpm_mult:Mult0                         ; lpm_mult    ; work         ;
+;       |mult_66t:auto_generated| ; 23 (23)             ; 0 (0)                     ; 0           ; 4            ; 0       ; 2         ; 0    ; 0            ; |demosaic|lpm_mult:Mult0|mult_66t:auto_generated ; mult_66t    ; work         ;
++---------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------+-------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++-----------------------------------------------------+
+; Analysis & Synthesis DSP Block Usage Summary        ;
++---------------------------------------+-------------+
+; Statistic                             ; Number Used ;
++---------------------------------------+-------------+
+; Simple Multipliers (9-bit)            ; 0           ;
+; Simple Multipliers (18-bit)           ; 2           ;
+; Embedded Multiplier Blocks            ; --          ;
+; Embedded Multiplier 9-bit elements    ; 4           ;
+; Signed Embedded Multipliers           ; 1           ;
+; Unsigned Embedded Multipliers         ; 0           ;
+; Mixed Sign Embedded Multipliers       ; 1           ;
+; Variable Sign Embedded Multipliers    ; 0           ;
+; Dedicated Input Shift Register Chains ; 0           ;
++---------------------------------------+-------------+
+Note: number of Embedded Multiplier Blocks used is only available after a successful fit.
+
+
++--------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                             ;
++---------------------------------------+----------------------------------------+
+; Register name                         ; Reason for Removal                     ;
++---------------------------------------+----------------------------------------+
+; denominator[17]                       ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 1 ;                                        ;
++---------------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 636   ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 25    ;
+; Number of registers using Asynchronous Clear ; 29    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 604   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; calc_en                                ; 57      ;
+; Total number of inverted registers = 1 ;         ;
++----------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                             ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output   ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+; 4:1                ; 76 bits   ; 152 LEs       ; 0 LEs                ; 152 LEs                ; Yes        ; |demosaic|k[1][8]            ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|calc_eeci_data[1]  ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |demosaic|center[0][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|calc_bi_data[1][5] ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|calc_bi_data[0][2] ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|calc_bi_data[2][0] ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |demosaic|state[0][2]        ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 4 LEs                ; 16 LEs                 ; Yes        ; |demosaic|reqCNT[1]          ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |demosaic|y[0][6]            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|w_data_cache[2][2] ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|w_data_cache[1][4] ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |demosaic|w_data_cache[0][0] ;
+; 13:1               ; 6 bits    ; 48 LEs        ; 12 LEs               ; 36 LEs                 ; Yes        ; |demosaic|x[0][6]            ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |demosaic|r_addr[2][2]       ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |demosaic|r_addr[2][8]       ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |demosaic|Mux91              ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |demosaic|Mux101             ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |demosaic|Mux124             ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |demosaic|Mux93              ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |demosaic|Mux107             ;
+; 4:1                ; 40 bits   ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |demosaic|Add109             ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |demosaic|Add98              ;
+; 5:1                ; 32 bits   ; 96 LEs        ; 64 LEs               ; 32 LEs                 ; No         ; |demosaic|Add96              ;
+; 6:1                ; 17 bits   ; 68 LEs        ; 34 LEs               ; 34 LEs                 ; No         ; |demosaic|Selector85         ;
+; 17:1               ; 6 bits    ; 66 LEs        ; 18 LEs               ; 48 LEs                 ; No         ; |demosaic|Mux84              ;
+; 16:1               ; 6 bits    ; 60 LEs        ; 18 LEs               ; 42 LEs                 ; No         ; |demosaic|Mux76              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+
+
++-------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: lpm_mult:Mult0                     ;
++------------------------------------------------+--------------+---------------------+
+; Parameter Name                                 ; Value        ; Type                ;
++------------------------------------------------+--------------+---------------------+
+; AUTO_CARRY_CHAINS                              ; ON           ; AUTO_CARRY          ;
+; IGNORE_CARRY_BUFFERS                           ; OFF          ; IGNORE_CARRY        ;
+; AUTO_CASCADE_CHAINS                            ; ON           ; AUTO_CASCADE        ;
+; IGNORE_CASCADE_BUFFERS                         ; OFF          ; IGNORE_CASCADE      ;
+; LPM_WIDTHA                                     ; 20           ; Untyped             ;
+; LPM_WIDTHB                                     ; 18           ; Untyped             ;
+; LPM_WIDTHP                                     ; 38           ; Untyped             ;
+; LPM_WIDTHR                                     ; 38           ; Untyped             ;
+; LPM_WIDTHS                                     ; 1            ; Untyped             ;
+; LPM_REPRESENTATION                             ; SIGNED       ; Untyped             ;
+; LPM_PIPELINE                                   ; 0            ; Untyped             ;
+; LATENCY                                        ; 0            ; Untyped             ;
+; INPUT_A_IS_CONSTANT                            ; NO           ; Untyped             ;
+; INPUT_B_IS_CONSTANT                            ; NO           ; Untyped             ;
+; USE_EAB                                        ; OFF          ; Untyped             ;
+; MAXIMIZE_SPEED                                 ; 5            ; Untyped             ;
+; DEVICE_FAMILY                                  ; Cyclone IV E ; Untyped             ;
+; CARRY_CHAIN                                    ; MANUAL       ; Untyped             ;
+; APEX20K_TECHNOLOGY_MAPPER                      ; LUT          ; TECH_MAPPER_APEX20K ;
+; DEDICATED_MULTIPLIER_CIRCUITRY                 ; AUTO         ; Untyped             ;
+; DEDICATED_MULTIPLIER_MIN_INPUT_WIDTH_FOR_AUTO  ; 0            ; Untyped             ;
+; DEDICATED_MULTIPLIER_MIN_OUTPUT_WIDTH_FOR_AUTO ; 0            ; Untyped             ;
+; CBXI_PARAMETER                                 ; mult_66t     ; Untyped             ;
+; INPUT_A_FIXED_VALUE                            ; Bx           ; Untyped             ;
+; INPUT_B_FIXED_VALUE                            ; Bx           ; Untyped             ;
+; USE_AHDL_IMPLEMENTATION                        ; OFF          ; Untyped             ;
++------------------------------------------------+--------------+---------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------+
+; lpm_mult Parameter Settings by Entity Instance         ;
++---------------------------------------+----------------+
+; Name                                  ; Value          ;
++---------------------------------------+----------------+
+; Number of entity instances            ; 1              ;
+; Entity Instance                       ; lpm_mult:Mult0 ;
+;     -- LPM_WIDTHA                     ; 20             ;
+;     -- LPM_WIDTHB                     ; 18             ;
+;     -- LPM_WIDTHP                     ; 38             ;
+;     -- LPM_REPRESENTATION             ; SIGNED         ;
+;     -- INPUT_A_IS_CONSTANT            ; NO             ;
+;     -- INPUT_B_IS_CONSTANT            ; NO             ;
+;     -- USE_EAB                        ; OFF            ;
+;     -- DEDICATED_MULTIPLIER_CIRCUITRY ; AUTO           ;
+;     -- INPUT_A_FIXED_VALUE            ; Bx             ;
+;     -- INPUT_B_FIXED_VALUE            ; Bx             ;
++---------------------------------------+----------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 105                         ;
+; cycloneiii_ff         ; 636                         ;
+;     CLR               ; 13                          ;
+;     CLR SLD           ; 1                           ;
+;     ENA               ; 565                         ;
+;     ENA CLR           ; 15                          ;
+;     ENA SLD           ; 24                          ;
+;     plain             ; 18                          ;
+; cycloneiii_lcell_comb ; 4079                        ;
+;     arith             ; 1761                        ;
+;         1 data inputs ; 4                           ;
+;         2 data inputs ; 324                         ;
+;         3 data inputs ; 1433                        ;
+;     normal            ; 2318                        ;
+;         0 data inputs ; 105                         ;
+;         1 data inputs ; 32                          ;
+;         2 data inputs ; 110                         ;
+;         3 data inputs ; 688                         ;
+;         4 data inputs ; 1383                        ;
+; cycloneiii_mac_mult   ; 2                           ;
+; cycloneiii_mac_out    ; 2                           ;
+;                       ;                             ;
+; Max LUT depth         ; 15.00                       ;
+; Average LUT depth     ; 10.52                       ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:11     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+    Info: Processing started: Mon Jun 12 20:20:48 2023
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off demosaic -c demosaic
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
+Warning (12019): Can't analyze file -- file demosic.v is missing
+Warning (12125): Using design file demosaic.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
+    Info (12023): Found entity 1: demosaic File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 2
+Info (12127): Elaborating entity "demosaic" for the top level hierarchy
+Warning (10230): Verilog HDL assignment warning at demosaic.v(48): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 48
+Warning (10230): Verilog HDL assignment warning at demosaic.v(57): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 57
+Warning (10230): Verilog HDL assignment warning at demosaic.v(58): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 58
+Warning (10230): Verilog HDL assignment warning at demosaic.v(66): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 66
+Warning (10230): Verilog HDL assignment warning at demosaic.v(68): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 68
+Warning (10230): Verilog HDL assignment warning at demosaic.v(71): truncated value with size 32 to match size of target (4) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 71
+Warning (10230): Verilog HDL assignment warning at demosaic.v(81): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 81
+Warning (10230): Verilog HDL assignment warning at demosaic.v(83): truncated value with size 32 to match size of target (7) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 83
+Warning (10230): Verilog HDL assignment warning at demosaic.v(85): truncated value with size 32 to match size of target (7) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 85
+Warning (10230): Verilog HDL assignment warning at demosaic.v(88): truncated value with size 32 to match size of target (4) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 88
+Warning (10230): Verilog HDL assignment warning at demosaic.v(97): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 97
+Warning (10230): Verilog HDL assignment warning at demosaic.v(99): truncated value with size 32 to match size of target (7) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 99
+Warning (10230): Verilog HDL assignment warning at demosaic.v(101): truncated value with size 32 to match size of target (7) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 101
+Warning (10230): Verilog HDL assignment warning at demosaic.v(104): truncated value with size 32 to match size of target (4) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 104
+Warning (10230): Verilog HDL assignment warning at demosaic.v(110): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 110
+Warning (10230): Verilog HDL assignment warning at demosaic.v(116): truncated value with size 32 to match size of target (4) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 116
+Warning (10240): Verilog HDL Always Construct warning at demosaic.v(44): inferring latch(es) for variable "refine", which holds its previous value in one or more paths through the always construct File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 44
+Warning (10270): Verilog HDL Case Statement warning at demosaic.v(129): incomplete case statement has no default case item File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 129
+Warning (10270): Verilog HDL Case Statement warning at demosaic.v(146): incomplete case statement has no default case item File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 146
+Warning (10270): Verilog HDL Case Statement warning at demosaic.v(160): incomplete case statement has no default case item File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 160
+Warning (10208): Verilog HDL Case Statement warning at demosaic.v(127): honored full_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 127
+Warning (10230): Verilog HDL assignment warning at demosaic.v(175): truncated value with size 32 to match size of target (8) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 175
+Warning (10230): Verilog HDL assignment warning at demosaic.v(176): truncated value with size 32 to match size of target (8) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 176
+Warning (10230): Verilog HDL assignment warning at demosaic.v(179): truncated value with size 32 to match size of target (8) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 179
+Warning (10230): Verilog HDL assignment warning at demosaic.v(180): truncated value with size 32 to match size of target (8) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 180
+Warning (10208): Verilog HDL Case Statement warning at demosaic.v(188): honored full_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 188
+Warning (10230): Verilog HDL assignment warning at demosaic.v(278): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 278
+Warning (10230): Verilog HDL assignment warning at demosaic.v(279): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 279
+Warning (10230): Verilog HDL assignment warning at demosaic.v(280): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 280
+Warning (10230): Verilog HDL assignment warning at demosaic.v(283): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 283
+Warning (10230): Verilog HDL assignment warning at demosaic.v(284): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 284
+Warning (10230): Verilog HDL assignment warning at demosaic.v(285): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 285
+Warning (10230): Verilog HDL assignment warning at demosaic.v(288): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 288
+Warning (10230): Verilog HDL assignment warning at demosaic.v(289): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 289
+Warning (10230): Verilog HDL assignment warning at demosaic.v(290): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 290
+Warning (10230): Verilog HDL assignment warning at demosaic.v(293): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 293
+Warning (10230): Verilog HDL assignment warning at demosaic.v(294): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 294
+Warning (10230): Verilog HDL assignment warning at demosaic.v(295): truncated value with size 32 to match size of target (14) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 295
+Warning (10230): Verilog HDL assignment warning at demosaic.v(301): truncated value with size 14 to match size of target (8) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 301
+Warning (10230): Verilog HDL assignment warning at demosaic.v(329): truncated value with size 32 to match size of target (13) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 329
+Warning (10230): Verilog HDL assignment warning at demosaic.v(361): truncated value with size 32 to match size of target (13) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 361
+Warning (10230): Verilog HDL assignment warning at demosaic.v(383): truncated value with size 32 to match size of target (13) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 383
+Warning (10230): Verilog HDL assignment warning at demosaic.v(405): truncated value with size 32 to match size of target (13) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 405
+Warning (10763): Verilog HDL warning at demosaic.v(429): case statement has overlapping case item expressions with non-constant or don't care bits - unable to check case statement for completeness File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 429
+Warning (10208): Verilog HDL Case Statement warning at demosaic.v(429): honored full_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 429
+Warning (10230): Verilog HDL assignment warning at demosaic.v(502): truncated value with size 32 to match size of target (3) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 502
+Warning (10272): Verilog HDL Case Statement warning at demosaic.v(547): case item expression covers a value already covered by a previous case item File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 547
+Warning (10208): Verilog HDL Case Statement warning at demosaic.v(509): honored full_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 509
+Warning (10209): Verilog HDL Case Statement warning at demosaic.v(509): honored parallel_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 509
+Warning (10208): Verilog HDL Case Statement warning at demosaic.v(592): honored full_case synthesis attribute - differences between design synthesis and simulation may occur File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 592
+Info (10041): Inferred latch for "refine" at demosaic.v(44) File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 44
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "cache" into its bus
+Info (278001): Inferred 1 megafunctions from design logic
+    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult0" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 463
+Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult0" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 463
+Info (12133): Instantiated megafunction "lpm_mult:Mult0" with the following parameter: File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 463
+    Info (12134): Parameter "LPM_WIDTHA" = "20"
+    Info (12134): Parameter "LPM_WIDTHB" = "18"
+    Info (12134): Parameter "LPM_WIDTHP" = "38"
+    Info (12134): Parameter "LPM_WIDTHR" = "38"
+    Info (12134): Parameter "LPM_WIDTHS" = "1"
+    Info (12134): Parameter "LPM_REPRESENTATION" = "SIGNED"
+    Info (12134): Parameter "INPUT_A_IS_CONSTANT" = "NO"
+    Info (12134): Parameter "INPUT_B_IS_CONSTANT" = "NO"
+    Info (12134): Parameter "MAXIMIZE_SPEED" = "5"
+Info (12021): Found 1 design units, including 1 entities, in source file db/mult_66t.tdf
+    Info (12023): Found entity 1: mult_66t File: /home/cicero/code/DIC_2023/hw5/file/db/mult_66t.tdf Line: 31
+Info (13014): Ignored 64 buffer(s)
+    Info (13019): Ignored 64 SOFT buffer(s)
+Info (13000): Registers with preset signals will power-up high File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 39
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Info (286030): Timing-Driven Synthesis is running
+Info (144001): Generated suppressed messages file /home/cicero/code/DIC_2023/hw5/file/demosaic.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 1 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "in_en" File: /home/cicero/code/DIC_2023/hw5/file/demosaic.v Line: 5
+Info (21057): Implemented 4625 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 35 input pins
+    Info (21059): Implemented 70 output pins
+    Info (21061): Implemented 4516 logic cells
+    Info (21062): Implemented 4 DSP elements
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 55 warnings
+    Info: Peak virtual memory: 486 megabytes
+    Info: Processing ended: Mon Jun 12 20:21:06 2023
+    Info: Elapsed time: 00:00:18
+    Info: Total CPU time (on all processors): 00:00:25
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in /home/cicero/code/DIC_2023/hw5/file/demosaic.map.smsg.
+
+
